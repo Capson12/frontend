@@ -1,0 +1,29 @@
+version: '3'
+#Version number
+services: 
+#the services it will run
+  web:
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+#this allows you to udpate the page, so you dont have to rebuild the container after every update.
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+#"." means find the docker build in the current directory if the docker file is called "dockerfile" however if its named something else you will need to add "context" to speficy
+#the current directory and then add dockerfile to specify the dockerfile to tell them which file to run
+    ports:
+      - "3000:300"
+#The ports it will run under
+    volumes:
+      - /app/node_modules
+      - .:/app
+#The volume it will create
+#the "." represents the current directoy and the ":/app" represents the image directory
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ["npm", "run", "test"]
