@@ -9,3 +9,18 @@ before_install:
 
 script:
  - docker run  -e CI=true rualoguh/frontend npm run test
+
+#All this information is from your AWS VM
+deploy:
+  provider: elasticbeanstalk
+  region: "eu-west-2"
+  app: "Docker-react"
+  env: "DockerReact-env"
+  bucket_name: "elasticbeanstalk-eu-west-2-598919335352"
+  bucket_path: "Docker-react"
+
+#This means to only deploy the code when its the master code.
+on:
+  branch: master
+access_key_id: $AWS_ACCESS_KEY
+secret_access_key: "AWS_SECRET_KEY"
